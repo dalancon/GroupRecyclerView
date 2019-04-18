@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             lists.add(student)
         }
 
-        for (index in 1..10) {
+        for (index in 1..20) {
             var student = Student("name$index", index + 10, 0, "Group3")
             lists.add(student)
         }

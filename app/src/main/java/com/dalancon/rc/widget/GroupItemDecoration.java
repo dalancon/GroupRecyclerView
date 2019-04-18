@@ -103,40 +103,39 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
         super.onDraw(canvas, parent, state);
         int childCount = parent.getChildCount();
         for (int i = 0; i < childCount; i++) {
+            View view = parent.getChildAt(i);
+            int position = parent.getChildAdapterPosition(view);
 
-            if (mGroupIndexs.contains(i)) {//显示组头
-                Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
+            if (mGroupIndexs.contains(position)) {//显示组头
 
-                int dy = (fontMetricsInt.bottom - fontMetricsInt.top) / 2 - fontMetricsInt.bottom;
-                int y = DEFAULT_GROUP_HEIGHT / 2 + dy;
-
-
-                String firstLetter = mLists.get(i).groupName.substring(0, 1);
+                String firstLetter = mLists.get(position).groupName.substring(0, 1);
                 Rect rect = new Rect();
                 mPaintWhite.getTextBounds(firstLetter, 0, firstLetter.length(), rect);
 
 
+                // 圆心y坐标
+                float cy = view.getTop() - DEFAULT_GROUP_HEIGHT / 2;
+                // 圆心x坐标
+                float cx = DEFAULT_LEFT_MARGIN + DEFAULT_CIRCLE_RADIUS;
+
                 Paint.FontMetricsInt firstFontMetricsInt = mPaintWhite.getFontMetricsInt();
                 int first_dy = (firstFontMetricsInt.bottom - firstFontMetricsInt.top) / 2 - firstFontMetricsInt.bottom;
-                int baseLine = DEFAULT_GROUP_HEIGHT / 2 + first_dy;
+                // 圆里面的首字母文字的基线
+                int baseLine = (int)cy + first_dy;
 
 
-                if (i == 0) {
-                    //画圆
-                    canvas.drawCircle(DEFAULT_LEFT_MARGIN + DEFAULT_CIRCLE_RADIUS, DEFAULT_GROUP_HEIGHT / 2, DEFAULT_CIRCLE_RADIUS, mCirclePaint);
-                    //画首字母
-                    canvas.drawText(firstLetter, DEFAULT_LEFT_MARGIN + DEFAULT_CIRCLE_RADIUS - rect.width() / 2,
-                            baseLine, mPaintWhite);
-                    //画组名
-                    canvas.drawText(mLists.get(i).groupName, DEFAULT_LEFT_MARGIN + 2 * DEFAULT_CIRCLE_RADIUS + 50, y, mPaint);
-                } else {
-                    canvas.drawCircle(DEFAULT_LEFT_MARGIN + DEFAULT_CIRCLE_RADIUS, parent.getChildAt(i - 1).getBottom() + DEFAULT_GROUP_HEIGHT / 2, DEFAULT_CIRCLE_RADIUS, mCirclePaint);
-                    //画首字母
-                    canvas.drawText(firstLetter, DEFAULT_LEFT_MARGIN + DEFAULT_CIRCLE_RADIUS - rect.width() / 2,
-                            parent.getChildAt(i - 1).getBottom() + baseLine, mPaintWhite);
+                Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
+                int dy = (fontMetricsInt.bottom - fontMetricsInt.top) / 2 - fontMetricsInt.bottom;
+                // 组名的基线
+                int y = (int)cy + dy;
 
-                    canvas.drawText(mLists.get(i).groupName, DEFAULT_LEFT_MARGIN + 2 * DEFAULT_CIRCLE_RADIUS + 50, parent.getChildAt(i - 1).getBottom() + y, mPaint);
-                }
+                //画圆
+                canvas.drawCircle(cx, cy, DEFAULT_CIRCLE_RADIUS, mCirclePaint);
+                //画首字母
+                canvas.drawText(firstLetter, DEFAULT_LEFT_MARGIN + DEFAULT_CIRCLE_RADIUS - rect.width() / 2,
+                        baseLine, mPaintWhite);
+                //画组名
+                canvas.drawText(mLists.get(position).groupName, DEFAULT_LEFT_MARGIN + 2 * DEFAULT_CIRCLE_RADIUS + 50, y, mPaint);
             }
         }
     }
