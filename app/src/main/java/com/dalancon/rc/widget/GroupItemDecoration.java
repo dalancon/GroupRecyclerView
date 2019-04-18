@@ -22,13 +22,13 @@ import java.util.List;
  * Created by dalancon on 2019/4/15.
  */
 
-public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.ItemDecoration {
+public class GroupItemDecoration extends RecyclerView.ItemDecoration {
 
     private Context mContext;
 
-    private List<T> mLists;
+    private List mLists;
 
-    private Comparator<T> mComparator;
+    private Comparator mComparator;
 
     // 默认group高度
     private int DEFAULT_GROUP_HEIGHT = 77;
@@ -46,7 +46,7 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
 
     private List<Integer> mGroupIndexs = new ArrayList<>();
 
-    GroupItemDecoration(Context context, List<T> lists, Comparator<T> comparator) {
+    GroupItemDecoration(Context context, List lists, Comparator comparator) {
         this.mContext = context;
         this.mLists = lists;
         this.mComparator = comparator;
@@ -159,10 +159,10 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
         this.DEFAULT_TEXT_SIZE = textSize;
     }
 
-    public static class Builder<T> {
-        private DecorationParams<T> P = null;
+    public static class Builder {
+        private DecorationParams P = null;
 
-        public Builder(Context context, List<T> list, Comparator<T> comparator) {
+        public Builder(Context context, List list, Comparator comparator) {
             P = new DecorationParams(context, list, comparator);
         }
 
@@ -172,7 +172,7 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
          * @param groupHeight
          * @return
          */
-        public Builder<T> setDefaultGroupHeight(int groupHeight) {
+        public Builder setDefaultGroupHeight(int groupHeight) {
             P.mGroupHeight = groupHeight;
             return this;
         }
@@ -183,7 +183,7 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
          * @param leftMargin
          * @return
          */
-        public Builder<T> setLeftMargin(int leftMargin) {
+        public Builder setLeftMargin(int leftMargin) {
             P.mLeftMargin = leftMargin;
             return this;
         }
@@ -194,12 +194,12 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
          * @param radius
          * @return
          */
-        public Builder<T> setRadius(int radius) {
+        public Builder setRadius(int radius) {
             P.mCircleRadius = radius;
             return this;
         }
 
-        public Builder<T> setTextSize(int textSize) {
+        public Builder setTextSize(int textSize) {
             P.mTextSize = textSize;
             return this;
         }
@@ -211,11 +211,11 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
             return groupItemDecoration;
         }
 
-        static class DecorationParams<T> {
+        static class DecorationParams {
             public WeakReference<Context> mContextReference = null;
 
-            public List<T> mLists;
-            public Comparator<T> mComparator;
+            public List mLists;
+            public Comparator mComparator;
 
             // 默认group高度
             public int mGroupHeight = 77;
@@ -229,7 +229,7 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
             //组头文字大小
             public int mTextSize = 18;
 
-            DecorationParams(Context context, List<T> list, Comparator<T> comparator) {
+            DecorationParams(Context context, List list, Comparator comparator) {
                 this.mContextReference = new WeakReference<>(context);
                 this.mLists = list;
                 this.mComparator = comparator;
