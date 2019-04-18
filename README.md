@@ -16,3 +16,6 @@ var groupItemDecoration = GroupItemDecoration.Builder<Student>(this, lists, MyCo
                 .setTextSize(25) // 设置组文字大小
                 .builder()
 ```
+  
+  
+<img src="https://github.com/dalancon/GroupRecyclerView/blob/master/screenshot/Screenshot1.jpg" alt="Sample"  width="216" height="384"/>
