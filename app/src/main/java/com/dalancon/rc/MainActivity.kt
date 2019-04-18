@@ -42,9 +42,9 @@ class MainActivity : AppCompatActivity() {
         mRecyclerView.layoutManager = layoutManager
 
         var groupItemDecoration = GroupItemDecoration.Builder<Student>(this, lists, MyComparator())
-//                .setDefaultGroupHeight(60)
-//                .setLeftMargin(40)
-//                .setRadius(15)
+                .setDefaultGroupHeight(60)
+                .setLeftMargin(40)
+                .setRadius(15)
                 .setTextSize(25)
                 .builder()
 
