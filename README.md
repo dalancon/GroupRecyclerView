@@ -9,7 +9,7 @@ holder.itemView.tag = lists[position].groupName
 
 2、通过建造者模式构建组头
 ```
-var groupItemDecoration = GroupItemDecoration.Builder<Student>(this, lists, MyComparator())
+var groupItemDecoration = GroupItemDecoration.Builder(this, lists, MyComparator())
                 .setDefaultGroupHeight(60)//设置组高
                 .setLeftMargin(40) //设置组左边距
                 .setRadius(15) // 设置圆半径
