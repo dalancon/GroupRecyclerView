@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -86,7 +87,8 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
 
-        int position = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
+        int position = parent.getChildAdapterPosition(view);
+
         if (position == 0) {// 如果index == 0 直接显示group
             outRect.top = DEFAULT_GROUP_HEIGHT;
             mGroupIndexs.add(position);
@@ -105,13 +107,14 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
         for (int i = 0; i < childCount; i++) {
             View view = parent.getChildAt(i);
             int position = parent.getChildAdapterPosition(view);
+            Log.e("TAG", "tag -> " + (String) parent.getChildViewHolder(view).itemView.getTag());
 
             if (mGroupIndexs.contains(position)) {//显示组头
 
-                String firstLetter = mLists.get(position).groupName.substring(0, 1);
+                String groupName = (String) parent.getChildViewHolder(view).itemView.getTag();
+                String firstLetter = groupName.substring(0, 1);
                 Rect rect = new Rect();
                 mPaintWhite.getTextBounds(firstLetter, 0, firstLetter.length(), rect);
-
 
                 // 圆心y坐标
                 float cy = view.getTop() - DEFAULT_GROUP_HEIGHT / 2;
@@ -121,13 +124,13 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
                 Paint.FontMetricsInt firstFontMetricsInt = mPaintWhite.getFontMetricsInt();
                 int first_dy = (firstFontMetricsInt.bottom - firstFontMetricsInt.top) / 2 - firstFontMetricsInt.bottom;
                 // 圆里面的首字母文字的基线
-                int baseLine = (int)cy + first_dy;
+                int baseLine = (int) cy + first_dy;
 
 
                 Paint.FontMetricsInt fontMetricsInt = mPaint.getFontMetricsInt();
                 int dy = (fontMetricsInt.bottom - fontMetricsInt.top) / 2 - fontMetricsInt.bottom;
                 // 组名的基线
-                int y = (int)cy + dy;
+                int y = (int) cy + dy;
 
                 //画圆
                 canvas.drawCircle(cx, cy, DEFAULT_CIRCLE_RADIUS, mCirclePaint);
@@ -135,7 +138,7 @@ public class GroupItemDecoration<T extends SectionBean> extends RecyclerView.Ite
                 canvas.drawText(firstLetter, DEFAULT_LEFT_MARGIN + DEFAULT_CIRCLE_RADIUS - rect.width() / 2,
                         baseLine, mPaintWhite);
                 //画组名
-                canvas.drawText(mLists.get(position).groupName, DEFAULT_LEFT_MARGIN + 2 * DEFAULT_CIRCLE_RADIUS + 50, y, mPaint);
+                canvas.drawText(groupName, DEFAULT_LEFT_MARGIN + 2 * DEFAULT_CIRCLE_RADIUS + 50, y, mPaint);
             }
         }
     }

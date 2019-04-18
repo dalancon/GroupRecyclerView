@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: MyHolder, position: Int) {
+            // 将组名设置为tag
+            holder.itemView.tag = lists[position].groupName
             holder.itemView.tv_name.text = lists[position].name
         }
 
